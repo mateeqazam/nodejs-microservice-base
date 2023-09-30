@@ -61,6 +61,8 @@ const logger = {
 	warn: (...params) => logWithStackTrace('warn', ...params),
 	error: (...params) => logWithStackTrace('error', ...params),
 	fatal: (...params) => logWithStackTrace('fatal', ...params),
+
+	dbError: (...params) => logWithStackTrace('error', ...params),
 };
 
 export default logger;
