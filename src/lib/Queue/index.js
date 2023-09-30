@@ -1,7 +1,7 @@
 import { Queue, Worker } from 'bullmq';
+import { isFunction, merge } from 'lodash';
 
-import log from '../../utils/log';
-import { merge, isFunction } from '../../utils/helpers';
+import logger from '../../utils/logger';
 import logUnsuccessfulJob from '../../utils/logUnsuccessfulJob';
 import { DEFAULT_JOB_OPTIONS, DEFAULT_WORKER_OPTIONS } from './constants';
 
@@ -44,7 +44,7 @@ function createQueueAndWorker(queueTitle, additionalParams = {}) {
 			const jobParams = { queueTitle, id, name };
 
 			if (attemptsMade === opts.attempts) {
-				log.error(
+				logger.error(
 					`${queueTitle} Worker Job ${jobIdentifier} has failed after all attempts. ${error?.message}`,
 					{ error, jobParams }
 				);
@@ -52,7 +52,7 @@ function createQueueAndWorker(queueTitle, additionalParams = {}) {
 				const retryNumber = attemptsMade + 1;
 				const totalAttempts = opts.attempts || 0;
 				const delay = opts.backoff?.delay || 0;
-				log.debug(
+				logger.debug(
 					`${queueTitle} Worker Job ${jobIdentifier} is retrying for the ${retryNumber} time out of ${totalAttempts} attempts after a delay of ${delay} ms. ${error?.message}`,
 					{ error, jobParams }
 				);
@@ -73,7 +73,7 @@ function createQueueAndWorker(queueTitle, additionalParams = {}) {
 		// });
 
 		worker.on('error', (error) => {
-			log.error(`${queueTitle} Worker encountered an error: ${error.message}`, { error });
+			logger.error(`${queueTitle} Worker encountered an error: ${error.message}`, { error });
 		});
 
 		worker.on('failed', logJobRetry);
@@ -81,7 +81,7 @@ function createQueueAndWorker(queueTitle, additionalParams = {}) {
 		return { queue, worker };
 	} catch (error) {
 		const errorMessage = `[createQueueAndWorker] Exception: ${error?.message}`;
-		log.error(errorMessage, { error });
+		logger.error(errorMessage, { error });
 		return { error };
 	}
 }

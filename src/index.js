@@ -1,11 +1,12 @@
 import 'dotenv/config';
-import 'isomorphic-fetch';
 
 import app from './app';
 import runCrons from './crons';
 import appRoutes from './routes';
+import logger from './utils/logger';
 import { ENV, PORT } from './config';
 import serverAdapter from './dashboard';
+import { BULLMQ_DASHBOARD_ENDPOINT } from './constants';
 import connectMongoDatabase from './services/MongoDB/connection';
 
 (async () => {
@@ -15,23 +16,22 @@ import connectMongoDatabase from './services/MongoDB/connection';
 
 		runCrons();
 
-		app.use('/admin/queues', serverAdapter.getRouter());
-
 		app.use('/', appRoutes);
+		app.use(BULLMQ_DASHBOARD_ENDPOINT, serverAdapter.getRouter());
+
 		app.use((req, res) =>
 			res.status(404).json({
 				message: `${req.protocol}://${req.get('host')}${req.originalUrl}: not a Valid Path!`,
 			})
 		);
 
-		// @Note: All the Errors caught in base middleware will be of critical type;
 		app.use((error, req, res) =>
 			// log error
 			res.status(500).json({ message: error?.message || error || 'Something went wrong!' })
 		);
 
 		await app.listen(PORT);
-		console.info(`Server started on port ${PORT} (ENV: ${ENV})`);
+		logger.info(`Server started on port ${PORT} (ENV: ${ENV})`);
 
 		// process.on('uncaughtException', async (err, origin) => {
 		// 	// log error
@@ -54,8 +54,7 @@ import connectMongoDatabase from './services/MongoDB/connection';
 		// 	process.kill(process.pid, 'SIGINT');
 		// });
 	} catch (error) {
-		// log error
-		console.error('Server Error', error?.message);
+		logger.error('Server Error', error?.message);
 		process.exit(1);
 	}
 })();

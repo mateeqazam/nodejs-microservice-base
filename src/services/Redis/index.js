@@ -1,7 +1,8 @@
+import logger from '../../utils/logger';
 import { getRedisClient } from './connection';
 
 export async function setInRedis(key, value, options = {}) {
-	if (!key) return { err: 'Missing Redis Key' };
+	if (!key) return { error: 'Missing Redis Key' };
 
 	try {
 		const redisClient = await getRedisClient();
@@ -15,22 +16,26 @@ export async function setInRedis(key, value, options = {}) {
 		}
 
 		if (!result || result.toUpperCase() !== 'OK') {
-			return { err: 'Unable to set to Redis' };
+			return { success: false, error: 'Unable to set to Redis' };
 		}
-		return { res: 'ok' };
-	} catch (err) {
-		return { err: err?.message || err };
+		return { success: true };
+	} catch (error) {
+		const errorMessage = `[setInRedis] Exception: ${error?.message}`;
+		logger.error(errorMessage, { error });
+		throw error;
 	}
 }
 
 export async function getFromRedis(key) {
-	if (!key) return { err: 'Missing Redis Key' };
+	if (!key) return { error: 'Missing Redis Key' };
 
 	try {
 		const redisClient = await getRedisClient();
 		const value = await redisClient.get(key);
-		return { res: value ? JSON.parse(value) : null };
-	} catch (err) {
-		return { err: err?.message || err };
+		return value ? JSON.parse(value) : null;
+	} catch (error) {
+		const errorMessage = `[getFromRedis] Exception: ${error?.message}`;
+		logger.error(errorMessage, { error });
+		throw error;
 	}
 }

@@ -1,11 +1,12 @@
-import { assign } from './helpers';
+import { assign } from 'lodash';
+import logger from './logger';
 
 async function setupRecurringJob(queue, { repeatRule, jobKey, jobData, jobOptions } = {}) {
 	if (!queue || (!repeatRule && !jobOptions)) return;
 
 	const jobTitle = jobKey || `${queue?.name}RecurringJob`;
 	try {
-		console.info(`[${jobTitle}] Job started at`, new Date());
+		logger.info(`[${jobTitle}] Job started at`, new Date());
 
 		const recurringJobOptions = assign(
 			{},
@@ -16,9 +17,9 @@ async function setupRecurringJob(queue, { repeatRule, jobKey, jobData, jobOption
 
 		await queue.add(jobTitle, jobData || {}, recurringJobOptions);
 
-		console.info(`[${jobTitle}] Job added at`, new Date());
+		logger.info(`[${jobTitle}] Job added at`, new Date());
 	} catch (error) {
-		console.error(`[${jobTitle}] Job exception error`, error?.message || error);
+		logger.error(`[${jobTitle}] Job exception error`, error?.message || error);
 	}
 }
 

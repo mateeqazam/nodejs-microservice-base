@@ -1,14 +1,14 @@
-# Nodejs Microservice starter project
+# Pribox Campaign Simulation Microservice
 
-This is a starter project for developing micro-services in Node.js using ES9. I tried to keep the folder structure simple so that any beginner could understand and start working on it.
+Welcome to the Pribox Campaign Simulation Microservice! This microservice is built using Node.js, MongoDB, and ES9. It allows you to simulate campaigns and manage related data efficiently.
 
 ## Getting Started
 
 ### Clone the repo and make it yours
 
 ```bash
-git clone https://github.com/mateeqazam/nodejs-microservice-boilerplate.git
-cd nodejs-microservice-boilerplate
+git clone https://github.com/pursuetoday/pribiox.campaign-simulator.git
+cd campaign-simulator
 ```
 
 #### Install dependencies
@@ -29,10 +29,6 @@ yarn dev
 yarn start:prod
 ```
 
-## License
-
-This project is licensed under the [MIT License](https://github.com/mateeqazam/nodejs-microservice-boilerplate/blob/main/LICENSE)
-
 ## Meta
 
-Muhammad Ateeq Azam – [@mateeqazm](https://twitter.com/mateeqazam) – contact@ateeqazam.me
+Muhammad Ateeq Azam – [@mateeqazm](https://twitter.com/mateeqazam) – <contact@ateeqazam.me>

@@ -1,9 +1,12 @@
+/* eslint-disable no-console */
 import { isNonEmptyArray } from './helpers';
+
+const TRACE_DEBUG_INFO_LEVELS = ['trace', 'debug', 'info'];
 
 const SIGN_ICONS = {
 	warn: '⚠️',
 	error: '❌',
-	danger: '❗☠️',
+	fatal: '❗☠️',
 };
 
 function logWithStackTrace(sign, ...params) {
@@ -14,18 +17,18 @@ function logWithStackTrace(sign, ...params) {
 		if (!errorMessage) return;
 
 		let logFunc = console[sign] || console.log;
-		if (sign === 'trace' || sign === 'debug' || sign === 'info') logFunc = console.log;
+		if (TRACE_DEBUG_INFO_LEVELS.includes(sign)) logFunc = console.log;
 
 		const signIcon = SIGN_ICONS[sign] || '';
 		const logMessage = `\n${signIcon} ${errorMessage}`.trim();
 		const logData = params && params[1] ? JSON.stringify(params[1]) : null;
 		logFunc(logMessage, logData);
 
-		if (error && error.stack && !(sign === 'trace' || sign === 'debug' || sign === 'info')) {
+		if (error && error.stack && !TRACE_DEBUG_INFO_LEVELS.includes(sign)) {
 			const relevantStackLines = error.stack
 				.split('\n')
-				.filter((line) => line.includes('at '))
-				.map((line) => `  ${line.trim()}`)
+				.map((line) => line.trim())
+				.filter((line) => line.startsWith('at '))
 				.join('\n');
 
 			logFunc('STACK TRACE:', relevantStackLines);
@@ -51,7 +54,7 @@ function logWithStackTrace(sign, ...params) {
 	}
 }
 
-const log = {
+const logger = {
 	trace: (...params) => logWithStackTrace('trace', ...params),
 	debug: (...params) => logWithStackTrace('debug', ...params),
 	info: (...params) => logWithStackTrace('info', ...params),
@@ -60,4 +63,4 @@ const log = {
 	fatal: (...params) => logWithStackTrace('fatal', ...params),
 };
 
-export default log;
+export default logger;

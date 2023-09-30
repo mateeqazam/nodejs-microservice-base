@@ -1,16 +1,18 @@
 import schedule from 'node-schedule';
 
+import logger from './logger';
+
 function scheduleCronJob(rule, { title, func } = {}) {
 	if (!rule || !func) return;
 
 	const jobTitle = title || func.name;
 	schedule.scheduleJob(rule, async () => {
-		console.info(`[${jobTitle}] Job started at`, new Date());
+		logger.info(`[${jobTitle}] Job started at`, new Date());
 		try {
 			await func();
-			console.info(`[${jobTitle}] Job completed at`, new Date());
-		} catch (err) {
-			console.error(`[${jobTitle}] Job exception error`, err?.message || err);
+			logger.info(`[${jobTitle}] Job completed at`, new Date());
+		} catch (error) {
+			logger.error(`[${jobTitle}] Job exception error`, error?.message || error);
 		}
 	});
 }

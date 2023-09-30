@@ -1,30 +1,39 @@
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs/promises';
+import { filter, map } from 'lodash';
 
-import log from '../utils/log';
-import { forEach } from '../utils/helpers';
+import logger from '../utils/logger';
+import { isNonEmptyArray } from '../utils/helpers';
 
-function runCronJobs() {
+async function runCronJobs() {
 	try {
 		const cronJobsDirectory = __dirname;
-		const files = fs.readdirSync(cronJobsDirectory);
+		const files = await fs.readdir(cronJobsDirectory);
+		if (!isNonEmptyArray(files)) return;
 
-		forEach(files, (file) => {
-			if (!file || (!file.endsWith('.js') && !file.endsWith('.ts'))) return;
-			if (file === 'index.js') return;
+		const validFiles = filter(files, (file) => {
+			if (!file) return false;
 
-			const filePath = path.join(cronJobsDirectory, file);
-			if (!fs.statSync(filePath)?.isFile()) return;
-
-			// eslint-disable-next-line import/no-dynamic-require, global-require
-			const cronJobModule = require(filePath);
-			if (cronJobModule && cronJobModule.default) {
-				cronJobModule.default();
-			}
+			const fileExtension = path.extname(file).toLowerCase();
+			return ['.js', '.ts'].includes(fileExtension) && file !== 'index.js' && file !== 'index.ts';
 		});
+		if (!isNonEmptyArray(validFiles)) return;
+
+		await Promise.all(
+			map(validFiles, async (file) => {
+				const filePath = path.join(cronJobsDirectory, file);
+				const fileStat = await fs.stat(filePath);
+				if (!fileStat.isFile()) return;
+
+				const cronJobModule = await import(filePath);
+				if (cronJobModule.default && typeof cronJobModule.default === 'function') {
+					cronJobModule.default();
+				}
+			})
+		);
 	} catch (error) {
 		const errorMessage = `[runCronJobs] Exception: ${error?.message}`;
-		log.error(errorMessage, { error });
+		logger.error(errorMessage, { error });
 	}
 }
 

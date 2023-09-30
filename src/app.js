@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import compression from 'compression';
 
-const FILE_SIZE_LIMIT = '2mb';
+import { FILE_SIZE_LIMIT } from './config';
 
 const app = express();
 app.use(compression());

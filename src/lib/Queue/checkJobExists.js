@@ -1,5 +1,6 @@
-import log from '../../utils/log';
-import { find } from '../../utils/helpers';
+import { find } from 'lodash';
+
+import logger from '../../utils/logger';
 
 async function checkJobExists(queue, jobName) {
 	if (!queue || !jobName) return false;
@@ -12,7 +13,7 @@ async function checkJobExists(queue, jobName) {
 		return !!find(jobs, { name: jobName });
 	} catch (error) {
 		const errorMessage = `[checkJobExists] Exception: ${error?.message}`;
-		log.error(errorMessage, { error, data: { queue, jobName } });
+		logger.error(errorMessage, { error, data: { queue, jobName } });
 		return false;
 	}
 }
