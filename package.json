@@ -1,5 +1,5 @@
 {
-	"name": "campaign-simulation-microservice",
+	"name": "pribox-campaign-simulation",
 	"version": "0.0.1-development",
 	"description": "A microservice to simulate campaigns",
 	"main": "src/index.js",
