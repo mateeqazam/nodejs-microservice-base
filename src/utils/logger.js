@@ -22,7 +22,7 @@ function logWithStackTrace(sign, ...params) {
 		const signIcon = SIGN_ICONS[sign] || '';
 		const logMessage = `\n${signIcon} ${errorMessage}`.trim();
 		const logData = params && params[1] ? JSON.stringify(params[1]) : null;
-		logFunc(logMessage, logData);
+		logFunc(logMessage, logData || '');
 
 		if (error && error.stack && !TRACE_DEBUG_INFO_LEVELS.includes(sign)) {
 			const relevantStackLines = error.stack
