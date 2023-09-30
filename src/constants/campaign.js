@@ -39,12 +39,11 @@ export const SIMULATION_STEP_STATUSES = {
 	FAILED: 'failed',
 };
 
-
 export const CAMPAIGN_EMAIL_QUEUE_STATUSES = {
 	ACTIVE: 'active',
 	QUEUED: 'queued',
 	PAUSED: 'paused',
 	COMPLETED: 'completed',
-	
+
 	FAILED: 'failed',
-}
+};
