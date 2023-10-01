@@ -27,7 +27,7 @@ async function runCronJobs() {
 
 				const cronJobModule = await import(filePath);
 				if (cronJobModule.default && typeof cronJobModule.default === 'function') {
-					cronJobModule.default();
+					await cronJobModule.default();
 				}
 			})
 		);

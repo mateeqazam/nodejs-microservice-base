@@ -10,6 +10,7 @@
 		"serve": "node dist/index.js",
 		"start:dev": "npm run build && nodemon dist/index.js",
 		"start:prod": "npm run build && npm run serve",
+		"script": "babel-node src/scripts/run.js",
 		"lint": "eslint . --ext .js",
 		"lint:fix": "eslint --fix . --ext .js",
 		"prettier": "prettier --check src/**/*.js",
