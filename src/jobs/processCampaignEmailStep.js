@@ -1,6 +1,7 @@
 import { pick, omit } from 'lodash';
 
 import logger from '../utils/logger';
+import parseJobParams from '../utils/helpers/parseJobParams';
 import CampaignSimulationModel from '../models/campaignSimulation';
 import EmailsToBeScheduledModel from '../models/emailsToBeScheduled';
 
@@ -47,7 +48,7 @@ async function processCampaignEmailStepJob(job, additionalParams = {}) {
 		return { success: true, data: omit(job?.data, ['stepNode']) };
 	} catch (error) {
 		const errorMessage = `[processCampaignEmailStepJob] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, jobParams: job?.data });
+		logger.error(errorMessage, { error, jobParams: parseJobParams(job) });
 		throw new Error(error || 'Something went wrong');
 	}
 }

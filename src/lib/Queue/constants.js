@@ -30,7 +30,7 @@ export const DEFAULT_JOB_OPTIONS = {
 			type: 'exponential',
 			delay: 3000,
 		},
-		removeOnComplete: IS_LOCAL,
+		removeOnComplete: !IS_LOCAL,
 		removeOnFail: false,
 	},
 };

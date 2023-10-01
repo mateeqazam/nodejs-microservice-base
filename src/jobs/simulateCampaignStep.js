@@ -2,6 +2,7 @@ import { pick } from 'lodash';
 
 import logger from '../utils/logger';
 import { FLOW_NODE_TYPES } from '../constants/campaign';
+import parseJobParams from '../utils/helpers/parseJobParams';
 import CampaignSimulationModel from '../models/campaignSimulation';
 import { generateCampaignStepJobKey } from '../utils/helpers/generateJobKey';
 
@@ -89,7 +90,7 @@ async function simulateCampaignStepJob(job, additionalParams = {}) {
 		};
 	} catch (error) {
 		const errorMessage = `[simulateCampaignStepJob] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, jobParams: job?.data });
+		logger.error(errorMessage, { error, jobParams: parseJobParams(job) });
 		throw new Error(error || 'Something went wrong');
 	}
 }

@@ -4,6 +4,7 @@ import promiseLimit from 'promise-limit';
 import logger from '../utils/logger';
 import { isNonEmptyArray } from '../utils/helpers';
 import { FLOW_NODE_TYPES } from '../constants/campaign';
+import parseJobParams from '../utils/helpers/parseJobParams';
 import getActiveSenders from '../utils/dbHelpers/getActiveSenders';
 import getValidProspects from '../utils/dbHelpers/getValidProspects';
 import { getCampaignFlowNode } from '../utils/dbHelpers/campaignFlow';
@@ -68,7 +69,7 @@ async function simulateCampaignJob(job, additionalParams = {}) {
 		return { success: true, data: { campaignId } };
 	} catch (error) {
 		const errorMessage = `[simulateCampaignJob] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, jobParams: { ...(job?.data || {}), jobName: job?.name } });
+		logger.error(errorMessage, { error, jobParams: parseJobParams(job) });
 		throw new Error(error || 'Something went wrong');
 	}
 }

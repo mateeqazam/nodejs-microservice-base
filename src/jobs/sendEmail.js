@@ -1,4 +1,5 @@
 import logger from '../utils/logger';
+import parseJobParams from '../utils/helpers/parseJobParams';
 
 async function sendEmailJob(job, additionalParams = {}) {
 	try {
@@ -8,7 +9,7 @@ async function sendEmailJob(job, additionalParams = {}) {
 		return { success: true, data: job?.data };
 	} catch (error) {
 		const errorMessage = `[sendEmailJob] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, jobParams: job?.data });
+		logger.error(errorMessage, { error, jobParams: parseJobParams(job) });
 		throw new Error(error || 'Something went wrong');
 	}
 }

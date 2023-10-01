@@ -1,14 +1,18 @@
 import logger from '../utils/logger';
+import parseJobParams from '../utils/helpers/parseJobParams';
 
-async function scheduleEmailsJob(job, additionalParams = {}) {
+async function scheduleEmailsJob(job) {
 	try {
-		const { logUnsuccessfulJob } = additionalParams || {};
-		if (!job?.data) return logUnsuccessfulJob('Missing Required Parameters');
+		const { name: jobName } = job || {};
+		logger.debug(`[scheduleEmailsJob] Job "${jobName}" started at ${new Date()}`);
 
-		return { success: true, data: job?.data };
+		// await scheduleCampaignEmails();
+
+		logger.debug(`[scheduleEmailsJob] Job "${jobName}" completed at ${new Date()}`);
+		return { success: true, data: { jobName } };
 	} catch (error) {
 		const errorMessage = `[scheduleEmailsJob] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, jobParams: job?.data });
+		logger.error(errorMessage, { error, jobParams: parseJobParams(job) });
 		throw new Error(error || 'Something went wrong');
 	}
 }

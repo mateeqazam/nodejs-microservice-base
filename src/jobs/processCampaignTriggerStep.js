@@ -1,6 +1,7 @@
 import { omit } from 'lodash';
 
 import logger from '../utils/logger';
+import parseJobParams from '../utils/helpers/parseJobParams';
 import { TRIGGER_NODE_VARIANTS } from '../constants/campaign';
 import enqueueCampaignStep from '../utils/campaignSimulation/enqueueCampaignStep';
 import { markCampaignSimulationStepAsCompleted } from '../utils/dbHelpers/campaignSimulation';
@@ -31,7 +32,7 @@ async function processCampaignTriggerStepJob(job, additionalParams = {}) {
 		return { success: true, data: omit(job?.data, ['stepNode']) };
 	} catch (error) {
 		const errorMessage = `[processCampaignTriggerStepJob] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, jobParams: job?.data, data: { variant } });
+		logger.error(errorMessage, { error, jobParams: parseJobParams(job), data: { variant } });
 		throw new Error(error || 'Something went wrong');
 	}
 }
