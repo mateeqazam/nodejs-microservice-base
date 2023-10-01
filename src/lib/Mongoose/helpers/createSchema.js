@@ -23,6 +23,7 @@ const createSchema = (properties = {}) => {
 			},
 			deletedAt: {
 				type: Date,
+				index: true,
 			},
 		},
 		{

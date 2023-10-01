@@ -1,7 +1,8 @@
 import { IS_LOCAL, IS_STAGING } from '../../config';
+import { BULLMQ_QUEUE_PREFIX } from '../../constants';
 import { REDIS_HOST, REDIS_PASSWORD, REDIS_PORT } from '../../config/redis';
 
-let prefix = 'pribox-campaign-simulator';
+let prefix = BULLMQ_QUEUE_PREFIX || 'microservice';
 if (IS_LOCAL) prefix = `${prefix}-local`;
 else if (IS_STAGING) prefix = `${prefix}-staging`;
 

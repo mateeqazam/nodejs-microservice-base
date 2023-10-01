@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
-import { isFunction } from 'lodash';
 
 import createSchema from './helpers/createSchema';
 import * as Operations from './helpers/operations';
 
 class Model {
 	constructor(modelName, schema) {
-		const modelSchema = isFunction(schema) ? createSchema(schema) : schema;
+		const modelSchema = schema instanceof mongoose.Schema ? schema : createSchema(schema);
+		this.name = modelName;
 		this.model = mongoose.model(modelName, modelSchema);
+		this.collectionName = this.model?.collection?.name;
 	}
 
 	async count(...params) {
@@ -18,7 +19,7 @@ class Model {
 		return Operations.findOne(this.model, ...params);
 	}
 
-	async findMany(...params) {
+	async find(...params) {
 		return Operations.findMany(this.model, ...params);
 	}
 
@@ -34,7 +35,7 @@ class Model {
 		return Operations.updateOne(this.model, ...params);
 	}
 
-	async updateMany(...params) {
+	async update(...params) {
 		return Operations.updateMany(this.model, ...params);
 	}
 

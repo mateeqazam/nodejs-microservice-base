@@ -29,6 +29,7 @@ function logWithStackTrace(sign, ...params) {
 				.split('\n')
 				.map((line) => line.trim())
 				.filter((line) => line.startsWith('at '))
+				.slice(0, 3)
 				.join('\n');
 
 			logFunc('STACK TRACE:', relevantStackLines);

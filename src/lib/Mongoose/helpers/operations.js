@@ -32,7 +32,7 @@ async function find(findFunc, CollectionModel, queryOptions) {
 }
 
 export const findOne = async (...params) => find('findOne', ...params);
-export const findMany = async (...params) => find('findMany', ...params);
+export const findMany = async (...params) => find('find', ...params);
 
 export async function insertOne(CollectionModel, documentToInsert) {
 	try {
