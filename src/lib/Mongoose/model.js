@@ -7,7 +7,7 @@ class Model {
 	constructor(modelName, schema) {
 		const modelSchema = schema instanceof mongoose.Schema ? schema : createSchema(schema);
 		this.name = modelName;
-		this.model = mongoose.model(modelName, modelSchema);
+		this.model = mongoose.model(modelName, modelSchema, modelName);
 		this.collectionName = this.model?.collection?.name;
 	}
 

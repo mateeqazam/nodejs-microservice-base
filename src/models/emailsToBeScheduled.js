@@ -3,7 +3,7 @@ import DB_COLLECTIONS from '../constants/dbCollections';
 import { String, Date, ObjectId } from '../lib/Mongoose/constants';
 import { CAMPAIGN_EMAIL_QUEUE_STATUSES } from '../constants/campaign';
 
-const campaignEmailQueueSchema = {
+const emailsToBeScheduledSchema = {
 	campaignSimulationStep: {
 		type: ObjectId,
 		ref: DB_COLLECTIONS.campaignSimulation,
@@ -56,9 +56,9 @@ const campaignEmailQueueSchema = {
 	},
 };
 
-const CampaignEmailQueueModel = new Model(
-	DB_COLLECTIONS.campaignEmailQueue,
-	campaignEmailQueueSchema
+const EmailsToBeScheduledModel = new Model(
+	DB_COLLECTIONS.emailsToBeScheduled,
+	emailsToBeScheduledSchema
 );
 
-export default CampaignEmailQueueModel;
+export default EmailsToBeScheduledModel;

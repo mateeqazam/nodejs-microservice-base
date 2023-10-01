@@ -1,20 +1,22 @@
 const DB_COLLECTIONS = {
-	user: 'User',
-	mailbox: 'mailbox',
-	campaign: 'campaign',
-	campaignSchedule: 'campaignSchedule',
+	campaign: 'campaigns',
 	campaignInsight: 'campaignInsights',
-	prospect: 'prospect',
-	prospectList: 'prospectList',
-	campaignEmailQueue: 'campaignEmailQueue',
-	campaignFlow: 'campaign_flow',
-	campaignSimulation: 'campaignSimulation',
-	emailLog: 'emailLog',
-	campaignsEmailTemplates: 'campaignEmailTemplates',
+	campaignSimulation: 'campaignSimulations',
+	emailLog: 'emailLogs',
+	emailsToBeScheduled: 'emailsToBeScheduled',
+	emailTrackingToken: 'emailTracingTokens',
+	mailbox: 'mailboxes',
+	prospect: 'prospects',
 	TAGS: 'tags',
-	prospectField: 'prospectField',
-	emailTrackingToken: 'emailTracingToken',
-	unsubscribedProspect: 'unsubscribedProspect',
+	unsubscribedProspect: 'unsubscribedProspects',
+	user: 'users',
+
+	// TODO: need to rename the followings
+	campaignFlow: 'campaign_flows',
+	campaignSchedule: 'campaign_schedules',
+	campaignsEmailTemplates: 'campaigns_templates',
+	prospectField: 'prospect_fields',
+	prospectList: 'prospect_lists',
 };
 
 export default DB_COLLECTIONS;

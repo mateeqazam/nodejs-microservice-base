@@ -14,6 +14,9 @@
 		"quotes": ["error", "single"],
 		"no-console": "warn",
 		"no-underscore-dangle": "off",
-		"prettier/prettier": ["error", { "endOfLine": "auto" }]
+		"prettier/prettier": ["error", { "endOfLine": "auto" }],
+
+		// TEMP RULES
+		"import/no-cycle": "off"
 	}
 }

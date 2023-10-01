@@ -1,14 +1,37 @@
+import { omit } from 'lodash';
+
 import logger from '../utils/logger';
+import { TRIGGER_NODE_VARIANTS } from '../constants/campaign';
+import enqueueCampaignStep from '../utils/campaignSimulation/enqueueCampaignStep';
+import { markCampaignSimulationStepAsCompleted } from '../utils/dbHelpers/campaignSimulation';
 
 async function processCampaignTriggerStepJob(job, additionalParams = {}) {
-	try {
-		const { logUnsuccessfulJob } = additionalParams || {};
-		if (!job?.data) return logUnsuccessfulJob('Missing Required Parameters');
+	const variant = TRIGGER_NODE_VARIANTS.NO;
 
-		return { success: true, data: job?.data };
+	try {
+		const { stepItemId, nodeItemId } = job?.data || {};
+		const { logUnsuccessfulJob } = additionalParams || {};
+		if (!stepItemId) return logUnsuccessfulJob('Missing Required Parameters');
+
+		const updatedCampaignSimulationStep = await markCampaignSimulationStepAsCompleted(stepItemId, {
+			write: { 'details.triggerNodeVariant': variant },
+		});
+		if (!updatedCampaignSimulationStep) {
+			throw new Error('Failed to update Campaign Simulation Step.');
+		}
+
+		await enqueueCampaignStep(
+			{
+				...omit(job?.data, ['stepItemId', 'stepNode', 'nodeItemId']),
+				parentNodeId: nodeItemId,
+			},
+			{ variant }
+		);
+
+		return { success: true, data: omit(job?.data, ['stepNode']) };
 	} catch (error) {
 		const errorMessage = `[processCampaignTriggerStepJob] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, jobParams: job?.data });
+		logger.error(errorMessage, { error, jobParams: job?.data, data: { variant } });
 		throw new Error(error || 'Something went wrong');
 	}
 }

@@ -1,4 +1,4 @@
-import { isArray, map } from 'lodash';
+import { isArray } from 'lodash';
 
 import logger from '../logger';
 import { isNonEmptyArray } from '../helpers';
@@ -12,7 +12,7 @@ async function getActiveSenders(senders) {
 		if (!isNonEmptyArray(senderIds)) throw new Error('Invalid or Empty Sender Ids');
 
 		const filter = {
-			_id: { $in: map(senderIds, 'id') },
+			_id: { $in: senderIds.map((id) => id) },
 			status: 'active',
 			'config.messagePerDay': { $gt: 0 },
 			$or: [{ deletedAt: { $exists: false } }, { deletedAt: null }],

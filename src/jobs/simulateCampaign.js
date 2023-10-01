@@ -1,4 +1,4 @@
-import { map } from 'lodash';
+import { isArray, map } from 'lodash';
 import promiseLimit from 'promise-limit';
 
 import logger from '../utils/logger';
@@ -21,10 +21,13 @@ async function simulateCampaignJob(job, additionalParams = {}) {
 		const campaign = await getActiveCampaignById(campaignId);
 		if (!campaign) return logUnsuccessfulJob('Campaign Not Found.');
 
+		const hasExcludeProspects = isArray(campaign?.excludeProspects)
+			? !!campaign.excludeProspects.length
+			: !!campaign.excludeProspects;
 		const [senders, prospects, excludeProspects, startNode] = await Promise.all([
-			getActiveSenders(campaign?.sender),
-			getValidProspects(campaign?.prospects),
-			getValidProspects(campaign?.excludeProspects),
+			getActiveSenders(campaign.sender),
+			getValidProspects(campaign.prospects),
+			hasExcludeProspects ? getValidProspects(campaign?.excludeProspects) : [],
 			getCampaignFlowNode({ campaign: campaignId, stepType: FLOW_NODE_TYPES.START }),
 		]);
 

@@ -56,6 +56,7 @@ const campaignSimulationSchema = {
 			type: String,
 			enum: Object.values(TRIGGER_NODE_VARIANTS),
 		},
+		scheduledEmailQueueItemID: ObjectId,
 		emailOpened: Boolean,
 		gotReplied: Boolean,
 		emailBounced: Boolean,

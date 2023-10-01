@@ -1,4 +1,4 @@
-import { isArray, map } from 'lodash';
+import { isArray } from 'lodash';
 
 import logger from '../logger';
 import { isNonEmptyArray } from '../helpers';
@@ -17,7 +17,7 @@ async function getValidProspects(prospectsList) {
 		const pipeline = [
 			{
 				$match: {
-					_id: { $in: map(prospectListIds, 'id') },
+					_id: { $in: prospectListIds.map((id) => id) },
 					$or: [{ deletedAt: { $exists: false } }, { deletedAt: null }],
 				},
 			},

@@ -9,4 +9,4 @@ export const {
 export const IS_STAGING = ENV === 'staging';
 export const IS_PRODUCTION = ENV === 'production';
 export const IS_DEVELOPMENT = ENV === 'development';
-export const IS_LOCAL = ENV === 'local-dev' || (ENV !== 'production' && ENV !== 'staging');
+export const IS_LOCAL = ENV === 'local-dev' || (!IS_PRODUCTION && !IS_STAGING);

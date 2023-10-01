@@ -1,11 +1,20 @@
+import { omit } from 'lodash';
+
 import logger from '../utils/logger';
+import { markCampaignSimulationStepAsCompleted } from '../utils/dbHelpers/campaignSimulation';
 
 async function processCampaignGoalStepJob(job, additionalParams = {}) {
 	try {
+		const { stepItemId } = job?.data || {};
 		const { logUnsuccessfulJob } = additionalParams || {};
-		if (!job?.data) return logUnsuccessfulJob('Missing Required Parameters');
+		if (!stepItemId) return logUnsuccessfulJob('Missing Required Parameters');
 
-		return { success: true, data: job?.data };
+		const updatedCampaignSimulationStep = await markCampaignSimulationStepAsCompleted(stepItemId);
+		if (!updatedCampaignSimulationStep) {
+			throw new Error('Failed to update Campaign Simulation Step.');
+		}
+
+		return { success: true, data: omit(job?.data, ['stepNode']) };
 	} catch (error) {
 		const errorMessage = `[processCampaignGoalStepJob] Exception: ${error?.message}`;
 		logger.error(errorMessage, { error, jobParams: job?.data });
