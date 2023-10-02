@@ -1,12 +1,12 @@
 import scheduleCronJob from '../utils/scheduleCronJob';
-import enqueueToCreateMonthlyPlans from '../utils/warmup/enqueueToCreateMonthlyPlan';
+import enqueueToCreateMonthlyPlan from '../utils/warmup/enqueueToCreateMonthlyPlan';
 
-function enqueueToCreateMonthlyPlansCronJob() {
+function enqueueToCreateMonthlyPlanCronJob() {
 	// every hour
 	scheduleCronJob('0 0 */1 * * *', {
-		title: 'enqueueToCreateMonthlyPlans',
-		func: enqueueToCreateMonthlyPlans,
+		title: 'enqueueToCreateMonthlyPlan',
+		func: enqueueToCreateMonthlyPlan,
 	});
 }
 
-export default enqueueToCreateMonthlyPlansCronJob;
+export default enqueueToCreateMonthlyPlanCronJob;

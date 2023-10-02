@@ -5,9 +5,9 @@ import logger from '../logger';
 import { isNonEmptyArray } from '../helpers';
 import MailboxModel from '../../models/mailbox';
 import { MAX_WARMUP_EMAILS } from '../../constants';
-import createMonthlyPlansQueue from '../../queues/createMonthlyPlan';
+import createMonthlyPlanQueue from '../../queues/createMonthlyPlan';
 
-async function enqueueToCreateMonthlyPlans() {
+async function enqueueToCreateMonthlyPlan() {
 	try {
 		const pipeline = [
 			{
@@ -36,7 +36,7 @@ async function enqueueToCreateMonthlyPlans() {
 		await Promise.all(
 			map(newMailboxes, (mailbox) =>
 				pLimit(() =>
-					createMonthlyPlansQueue.add(`create-monthly-plan-${mailbox._id}`, {
+					createMonthlyPlanQueue.add(`create-monthly-plan-${mailbox._id}`, {
 						mailboxId: mailbox._id,
 						totalEmails: MAX_WARMUP_EMAILS,
 					})
@@ -44,9 +44,9 @@ async function enqueueToCreateMonthlyPlans() {
 			)
 		);
 	} catch (error) {
-		const errorMessage = `[enqueueToCreateMonthlyPlans] Exception: ${error?.message}`;
+		const errorMessage = `[enqueueToCreateMonthlyPlan] Exception: ${error?.message}`;
 		logger.error(errorMessage, { error });
 	}
 }
 
-export default enqueueToCreateMonthlyPlans;
+export default enqueueToCreateMonthlyPlan;

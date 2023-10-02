@@ -1,9 +1,9 @@
 import createQueueAndWorker from '../lib/Queue';
-import createMonthlyPlansJob from '../jobs/createMonthlyPlan';
+import createMonthlyPlanJob from '../jobs/createMonthlyPlan';
 
 const queueTitle = 'create-monthly-plan-queue';
 const { queue: scheduleEmailsQueue, worker } = createQueueAndWorker(queueTitle, {
-	worker: createMonthlyPlansJob,
+	worker: createMonthlyPlanJob,
 	queueOptions: {
 		limiter: {
 			max: 500,

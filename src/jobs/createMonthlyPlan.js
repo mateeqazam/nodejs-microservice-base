@@ -2,7 +2,7 @@ import logger from '../utils/logger';
 import parseJobParams from '../utils/helpers/parseJobParams';
 import createMonthlyPlan from '../utils/warmup/createMonthlyPlan';
 
-async function createMonthlyPlansJob(job, additionalParams) {
+async function createMonthlyPlanJob(job, additionalParams) {
 	try {
 		const { mailboxId, totalEmails } = job?.data || {};
 		const { logUnsuccessfulJob } = additionalParams || {};
@@ -12,10 +12,10 @@ async function createMonthlyPlansJob(job, additionalParams) {
 
 		return { success: true, data: { mailboxId } };
 	} catch (error) {
-		const errorMessage = `[createMonthlyPlansJob] Exception: ${error?.message}`;
+		const errorMessage = `[createMonthlyPlanJob] Exception: ${error?.message}`;
 		logger.error(errorMessage, { error, jobParams: parseJobParams(job) });
 		throw new Error(error || 'Something went wrong');
 	}
 }
 
-export default createMonthlyPlansJob;
+export default createMonthlyPlanJob;
