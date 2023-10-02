@@ -15,10 +15,13 @@ const DB_COLLECTIONS = {
 	campaignFlow: 'campaign_flows',
 	campaignSchedule: 'campaign_schedules',
 	campaignsEmailTemplates: 'campaigns_templates',
+	emailTemplate: 'email_templates',
 	monthlyPlan: 'monthly_plans',
 	monthlyPlanArchive: 'monthly_plan_archives',
 	prospectField: 'prospect_fields',
 	prospectList: 'prospect_lists',
+	sentEmail: 'sent_emails',
+	spamScore: 'spam_scores',
 };
 
 export default DB_COLLECTIONS;

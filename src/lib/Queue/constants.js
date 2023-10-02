@@ -15,14 +15,15 @@ export const redisConnection = {
 };
 
 export const RETRIES = 3;
-export const WORKERS_CONCURRENCY = 1500;
+export const WORKERS_CONCURRENCY = 200;
 
 export const DEFAULT_JOB_OPTIONS = {
 	prefix,
 	connection: redisConnection,
 	limiter: {
 		max: 1000,
-		duration: 2500,
+		duration: 10000,
+		bounceBack: false,
 	},
 	defaultJobOptions: {
 		attempts: RETRIES,

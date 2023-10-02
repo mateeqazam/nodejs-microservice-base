@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import 'isomorphic-fetch';
 
 import app from './app';
 import runCrons from './crons';
