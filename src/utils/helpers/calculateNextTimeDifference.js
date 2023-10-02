@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import logger from '../logger';
 import { isNonEmptyArray } from '.';
-import { EMAIL_SCHEDULING_MINUTES } from '../../constants';
+import { EMAIL_SCHEDULING_MINUTES } from '../../constants/simulation';
 
 function calculateNextTimeDifference() {
 	try {

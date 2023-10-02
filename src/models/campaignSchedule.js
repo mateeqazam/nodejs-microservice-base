@@ -1,5 +1,5 @@
 import Model from '../lib/Mongoose/model';
-import { DAYS_NAMES } from '../constants';
+import { WEEK_DAYS } from '../constants';
 import DB_COLLECTIONS from '../constants/dbCollections';
 import { String, Date } from '../lib/Mongoose/constants';
 import createSchema from '../lib/Mongoose/helpers/createSchema';
@@ -9,7 +9,7 @@ const campaignScheduleSchema = createSchema({
 	timezoneUTC: String,
 	timings: [
 		{
-			day: { type: String, enum: DAYS_NAMES },
+			day: { type: String, enum: WEEK_DAYS?.map((day) => day.toLowerCase()) },
 			startTime: Date,
 			endTime: Date,
 		},

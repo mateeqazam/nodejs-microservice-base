@@ -5,12 +5,12 @@ import logger from '../utils/logger';
 import { isNonEmptyArray } from '../utils/helpers';
 import { FLOW_NODE_TYPES } from '../constants/campaign';
 import parseJobParams from '../utils/helpers/parseJobParams';
-import getActiveSenders from '../utils/dbHelpers/getActiveSenders';
-import getValidProspects from '../utils/dbHelpers/getValidProspects';
-import { getCampaignFlowNode } from '../utils/dbHelpers/campaignFlow';
-import getActiveCampaignById from '../utils/dbHelpers/getActiveCampaignById';
-import enqueueCampaignStep from '../utils/campaignSimulation/enqueueCampaignStep';
-import divideProspectsBySenders from '../utils/campaignSimulation/divideProspectsBySenders';
+import getActiveSenders from '../utils/db-helpers/getActiveSenders';
+import getValidProspects from '../utils/db-helpers/getValidProspects';
+import { getCampaignFlowNode } from '../utils/db-helpers/campaignFlow';
+import getActiveCampaignById from '../utils/db-helpers/getActiveCampaignById';
+import enqueueCampaignStep from '../utils/campaign-simulation/enqueueCampaignStep';
+import divideProspectsBySenders from '../utils/campaign-simulation/divideProspectsBySenders';
 
 async function simulateCampaignJob(job, additionalParams = {}) {
 	try {

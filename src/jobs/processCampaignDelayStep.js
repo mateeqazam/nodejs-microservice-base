@@ -2,8 +2,8 @@ import { omit } from 'lodash';
 
 import logger from '../utils/logger';
 import parseJobParams from '../utils/helpers/parseJobParams';
-import enqueueCampaignStep from '../utils/campaignSimulation/enqueueCampaignStep';
-import { markCampaignSimulationStepAsCompleted } from '../utils/dbHelpers/campaignSimulation';
+import enqueueCampaignStep from '../utils/campaign-simulation/enqueueCampaignStep';
+import { markCampaignSimulationStepAsCompleted } from '../utils/db-helpers/campaignSimulation';
 
 async function processCampaignDelayStepJob(job, additionalParams = {}) {
 	try {

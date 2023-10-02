@@ -1,5 +1,5 @@
 import logger from '../logger';
-import { getCampaignFlowNode } from '../dbHelpers/campaignFlow';
+import { getCampaignFlowNode } from '../db-helpers/campaignFlow';
 import campaignStepSimulatorQueue from '../../queues/campaignStepSimulator';
 import { generateCampaignStepSimulatorJobKey } from '../helpers/generateJobKey';
 

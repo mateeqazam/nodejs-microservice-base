@@ -2,7 +2,7 @@ import { omit } from 'lodash';
 
 import logger from '../utils/logger';
 import parseJobParams from '../utils/helpers/parseJobParams';
-import { markCampaignSimulationStepAsCompleted } from '../utils/dbHelpers/campaignSimulation';
+import { markCampaignSimulationStepAsCompleted } from '../utils/db-helpers/campaignSimulation';
 
 async function processCampaignGoalStepJob(job, additionalParams = {}) {
 	try {

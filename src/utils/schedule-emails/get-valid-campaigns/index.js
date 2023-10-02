@@ -2,7 +2,7 @@ import { filter, map } from 'lodash';
 import promiseLimit from 'promise-limit';
 
 import logger from '../../logger';
-import getActiveCampaignsWithSchedule from '../../dbHelpers/getActiveCampaignsWithSchedule';
+import getActiveCampaignsWithSchedule from '../../db-helpers/getActiveCampaignsWithSchedule';
 
 import validateCampaign from './validateCampaign';
 
