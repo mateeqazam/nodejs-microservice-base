@@ -6,7 +6,7 @@ async function scheduleEmailsJob(job) {
 		const { name: jobName } = job || {};
 		logger.debug(`[scheduleEmailsJob] Job "${jobName}" started at ${new Date()}`);
 
-		// await scheduleCampaignEmails();
+		// await scheduleEmails();
 
 		logger.debug(`[scheduleEmailsJob] Job "${jobName}" completed at ${new Date()}`);
 		return { success: true, data: { jobName } };
