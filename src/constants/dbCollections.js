@@ -15,6 +15,8 @@ const DB_COLLECTIONS = {
 	campaignFlow: 'campaign_flows',
 	campaignSchedule: 'campaign_schedules',
 	campaignsEmailTemplates: 'campaigns_templates',
+	monthlyPlan: 'monthly_plans',
+	monthlyPlanArchive: 'monthly_plan_archives',
 	prospectField: 'prospect_fields',
 	prospectList: 'prospect_lists',
 };

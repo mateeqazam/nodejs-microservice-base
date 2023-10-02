@@ -1,7 +1,7 @@
 {
-	"name": "pribox-campaign-simulation",
+	"name": "pribox-jobs",
 	"version": "0.0.1-development",
-	"description": "A microservice to simulate campaigns",
+	"description": "A microservice to run pribox jobs",
 	"main": "src/index.js",
 	"private": true,
 	"scripts": {
@@ -19,7 +19,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pursuetoday/pribox.campaign-simulator.git"
+		"url": "https://github.com/pursuetoday/pribox.jobs.git"
 	},
 	"author": {
 		"name": "Muhammad Ateeq Azam",
@@ -34,12 +34,14 @@
 		"cors": "^2.8.5",
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
+		"fast-csv": "^4.3.6",
 		"lodash": "^4.17.21",
 		"moment": "^2.29.4",
 		"mongoose": "^7.5.3",
 		"node-fetch": "^3.3.2",
 		"node-schedule": "^2.1.1",
 		"path": "^0.12.7",
+		"postmark": "^3.0.19",
 		"promise-limit": "^2.7.0",
 		"redis": "^4.6.10"
 	},

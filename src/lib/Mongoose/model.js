@@ -23,6 +23,10 @@ class Model {
 		return Operations.findMany(this.model, ...params);
 	}
 
+	async create(...params) {
+		return Operations.insertOne(this.model, ...params);
+	}
+
 	async insertOne(...params) {
 		return Operations.insertOne(this.model, ...params);
 	}

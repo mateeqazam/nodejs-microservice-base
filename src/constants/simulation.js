@@ -1,3 +1,0 @@
-export const MINIMUM_EMAILS_PER_CAMPAIGN = 20;
-export const TIME_SPAN_TO_SCHEDULE_CAMPAIGN_EMAILS = 5 * 60; // seconds
-export const EMAIL_SCHEDULING_MINUTES = [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57];

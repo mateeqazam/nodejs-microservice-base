@@ -1,14 +1,14 @@
-# Pribox Campaign Simulation Microservice
+# Pribox Jobs Microservice
 
-Welcome to the Pribox Campaign Simulation Microservice! This microservice is built using Node.js, MongoDB, and ES9. It allows you to simulate campaigns and manage related data efficiently.
+Welcome to the Pribox Jobs Microservice! This microservice is built using Node.js, MongoDB, and ES9. It allows you to run pribox jobs and manage related data efficiently.
 
 ## Getting Started
 
 ### Clone the repo and make it yours
 
 ```bash
-git clone https://github.com/pursuetoday/pribiox.campaign-simulator.git
-cd campaign-simulator
+git clone https://github.com/pursuetoday/pribiox.jobspribox..git
+cd pribox.jobs
 ```
 
 #### Install dependencies
