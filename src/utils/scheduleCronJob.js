@@ -12,7 +12,7 @@ function scheduleCronJob(rule, { title, func } = {}) {
 			await func();
 			logger.debug(`[${jobTitle}] Job completed at`, new Date());
 		} catch (error) {
-			logger.error(`[${jobTitle}] Job exception error`, error?.message || error);
+			logger.error(`[${jobTitle}] Job exception occured: `, error?.message || error);
 		}
 	});
 }

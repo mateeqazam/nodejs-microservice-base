@@ -24,6 +24,7 @@ const DB_COLLECTIONS = {
 	spamScore: 'spam_scores',
 	warmupAnalytics: 'analytics',
 	emailTemplatePriority: 'email_template_priorities',
+	spamScoreEmail: 'spam_score_emails',
 };
 
 export default DB_COLLECTIONS;
