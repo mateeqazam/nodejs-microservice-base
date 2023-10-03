@@ -16,10 +16,11 @@ export async function count(CollectionModel, queryOptions) {
 
 async function find(findFunc, CollectionModel, queryOptions) {
 	try {
-		const { filter, select, skip, limit, sort } = parseQueryOptions(queryOptions);
+		const { filter, select, populate, skip, limit, sort } = parseQueryOptions(queryOptions);
 		const query = CollectionModel[findFunc](filter);
 
 		if (select) query.select(select);
+		if (populate) query.populate(populate);
 		if (sort) query.sort(sort);
 		if (skip) query.skip(skip);
 		if (limit || limit === 0) query.limit(limit);
