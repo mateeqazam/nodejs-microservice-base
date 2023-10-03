@@ -21,8 +21,10 @@ async function processEmail(imap, email, additionalParams) {
 
 		await markAsInteracted(_id);
 
+		let emailProcessed = false;
+
 		// TODO: need to refactor the code
-		if (inboxFolder) {
+		if (!emailProcessed && inboxFolder) {
 			const uid = await imap.getUID(messageId, inboxFolder.path);
 			if (uid) {
 				if (shouldInteract) {
@@ -32,10 +34,11 @@ async function processEmail(imap, email, additionalParams) {
 					}
 				}
 				if (!isReply) await incrementInboxEmailCount(from);
+				emailProcessed = true;
 			}
 		}
 
-		if (spamFolder) {
+		if (!emailProcessed && spamFolder) {
 			const uid = await imap.getUID(messageId, spamFolder.path);
 			if (uid) {
 				if (shouldInteract) {
@@ -49,6 +52,7 @@ async function processEmail(imap, email, additionalParams) {
 					}
 				}
 				if (!isReply) await incrementFlaggedEmailCount(from);
+				emailProcessed = true;
 			}
 		}
 	} catch (error) {

@@ -1,5 +1,10 @@
 import moment from 'moment';
 
+export function isToday(date) {
+	if (!date) return false;
+	return moment().isSame(new Date(date), 'day');
+}
+
 export function getTodayDate() {
 	return new Date(moment().utc().startOf('day').toDate()).getTime();
 }

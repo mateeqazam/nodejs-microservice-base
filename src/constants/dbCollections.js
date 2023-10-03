@@ -22,6 +22,7 @@ const DB_COLLECTIONS = {
 	prospectList: 'prospect_lists',
 	sentEmail: 'sent_emails',
 	spamScore: 'spam_scores',
+	warmupAnalytics: 'analytics',
 };
 
 export default DB_COLLECTIONS;
