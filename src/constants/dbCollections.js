@@ -23,6 +23,7 @@ const DB_COLLECTIONS = {
 	sentEmail: 'sent_emails',
 	spamScore: 'spam_scores',
 	warmupAnalytics: 'analytics',
+	emailTemplatePriority: 'email_template_priorities',
 };
 
 export default DB_COLLECTIONS;
