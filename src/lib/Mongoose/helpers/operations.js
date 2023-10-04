@@ -1,4 +1,5 @@
-import logger from '../../../utils/logger';
+import { pick } from 'lodash';
+
 import { isNonEmptyArray } from '../../../utils/helpers';
 
 import logDBError from './logDBError';
@@ -7,7 +8,7 @@ import { parseQueryOptions, parseWriteOperations } from './parsers';
 export async function count(CollectionModel, queryOptions) {
 	try {
 		const { filter } = parseQueryOptions({ skipLimit: false, ...queryOptions });
-		return await CollectionModel.countDocuments(filter);
+		return CollectionModel.countDocuments(filter);
 	} catch (error) {
 		logDBError(CollectionModel, 'count', error, queryOptions);
 		throw error;
@@ -25,7 +26,7 @@ async function find(findFunc, CollectionModel, queryOptions) {
 		if (skip) query.skip(skip);
 		if (limit || limit === 0) query.limit(limit);
 
-		return await query.exec();
+		return query.exec();
 	} catch (error) {
 		logDBError(CollectionModel, findFunc || 'find', error, queryOptions);
 		throw error;
@@ -62,9 +63,7 @@ export async function insertMany(CollectionModel, documentsToInsert) {
 			throw new Error('Missing Documents To Insert');
 		}
 
-		const result = await CollectionModel.insertMany(documentsToInsert);
-		logger.debug(`${result?.length} documents inserted successfully.`);
-		return result;
+		return CollectionModel.insertMany(documentsToInsert);
 	} catch (error) {
 		logDBError(CollectionModel, 'insertMany', error, { write: documentsToInsert });
 		throw error;
@@ -73,13 +72,14 @@ export async function insertMany(CollectionModel, documentsToInsert) {
 
 export async function updateOne(CollectionModel, queryOptions) {
 	try {
-		const { filter = {}, write, ...restParams } = queryOptions || {};
+		const { filter = {}, write, ignoreDocumentNotFound, ...restParams } = queryOptions || {};
 		const update = parseWriteOperations(write);
 		const options = { ...restParams, new: true };
 
 		const updatedDocument = await CollectionModel.findOneAndUpdate(filter, update, options);
 		if (updatedDocument) return updatedDocument;
-		throw new Error('Document not found or not updated.');
+		if (!ignoreDocumentNotFound) throw new Error('Document not found or not updated.');
+		return null;
 	} catch (error) {
 		logDBError(CollectionModel, 'updateOne', error, queryOptions);
 		throw error;
@@ -91,9 +91,7 @@ export async function updateMany(CollectionModel, queryOptions) {
 		const { filter = {}, write, ...restParams } = queryOptions || {};
 		const options = { ...restParams, new: true };
 
-		const updatedDocuments = await CollectionModel.updateMany(filter, write, options);
-		logger.debug(`${updatedDocuments?.nModified} documents updated successfully.`);
-		return updatedDocuments;
+		return CollectionModel.updateMany(filter, write, options);
 	} catch (error) {
 		logDBError(CollectionModel, 'updateMany', error, queryOptions);
 		throw error;
@@ -103,7 +101,7 @@ export async function updateMany(CollectionModel, queryOptions) {
 export async function distinct(CollectionModel, queryOptions) {
 	try {
 		const { fieldName, filter = {} } = queryOptions || {};
-		return await CollectionModel.distinct(fieldName, filter);
+		return CollectionModel.distinct(fieldName, filter);
 	} catch (error) {
 		logDBError(CollectionModel, 'distinct', error, queryOptions);
 		throw error;
@@ -116,14 +114,14 @@ export async function bulkWrite(CollectionModel, operations, options = {}) {
 			throw new Error('Missing Operations To Bulk Write');
 		}
 
-		return await CollectionModel.bulkWrite(operations, { ordered: false, ...options });
-		// return _.pick(result, [
-		// 	'insertedCount',
-		// 	'matchedCount',
-		// 	'modifiedCount',
-		// 	'deletedCount',
-		// 	'upsertedCount',
-		// ]);
+		const result = CollectionModel.bulkWrite(operations, { ordered: false, ...options });
+		return pick(result, [
+			'insertedCount',
+			'matchedCount',
+			'modifiedCount',
+			'deletedCount',
+			'upsertedCount',
+		]);
 	} catch (error) {
 		logDBError(CollectionModel, 'bulkWrite', error, { operationsToExecute: operations?.length });
 		throw error;
@@ -132,7 +130,7 @@ export async function bulkWrite(CollectionModel, operations, options = {}) {
 
 export async function aggregate(CollectionModel, pipeline) {
 	try {
-		return await CollectionModel.aggregate(pipeline);
+		return CollectionModel.aggregate(pipeline);
 	} catch (error) {
 		logDBError(CollectionModel, 'aggregate', error, { pipeline });
 		throw error;

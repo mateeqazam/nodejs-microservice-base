@@ -1,19 +1,49 @@
-import imap from 'imap-simple';
+import Imap from 'imap';
+import promiseLimit from 'promise-limit';
 
 import logger from '../utils/logger';
 import MailboxModel from '../models/mailbox';
 import getIMAPConfig from '../lib/IMAP/getIMAPConfig';
 import scheduleCronJob from '../utils/scheduleCronJob';
 
+async function isImapConnected(config) {
+	return new Promise((resolve) => {
+		const imap = new Imap(config);
+
+		imap.once('ready', () => {
+			imap.end();
+			resolve({ connected: true });
+		});
+
+		imap.once('error', (error) => {
+			resolve({ connected: false, error });
+		});
+
+		imap.connect();
+	});
+}
+
 async function checkIMAPConnection(mailbox) {
 	if (!mailbox || mailbox.senderOnly || mailbox.deletedAt) return;
 
 	try {
-		const imapConnection = await imap.connect({ imap: getIMAPConfig(mailbox) });
-		imapConnection.end();
+		const config = getIMAPConfig(mailbox);
+		if (!config) {
+			logger.fatal('[checkIMAPConnection] Unable to parse IMAP config', { data: mailbox });
+			return;
+		}
+
+		const connectionStatus = await isImapConnected(config);
+		const { connected, error: connectionError } = connectionStatus || {};
+		if (!connected) throw new Error(connectionError || 'Unable to connect');
 	} catch (error) {
-		logger.info('[checkIMAPConnection] Unable to connect IMAP', { error, params: { mailbox } });
-		await MailboxModel.updateOne({ filter: { _id: mailbox._id }, write: { senderOnly: true } });
+		const errorMessage = `[checkIMAPConnection] Unable to connect IMAP. ${error?.message}`;
+		logger.info(errorMessage, { error, params: { mailbox } });
+		await MailboxModel.updateOne({
+			filter: { _id: mailbox._id },
+			write: { senderOnly: true },
+			ignoreDocumentNotFound: true,
+		});
 	}
 }
 
@@ -27,7 +57,8 @@ async function checkIMAPConnections() {
 		skipLimit: true,
 	});
 
-	await Promise.all(mailboxes.map((mailbox) => checkIMAPConnection(mailbox)));
+	const pLimit = promiseLimit(8);
+	await Promise.all(mailboxes.map((mailbox) => pLimit(() => checkIMAPConnection(mailbox))));
 }
 
 function checkIMAPConnectionsCronJob() {
