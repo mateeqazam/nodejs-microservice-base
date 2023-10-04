@@ -1,3 +1,5 @@
+import { IS_PRODUCTION, ENV } from '../config';
+
 export const BULLMQ_QUEUE_PREFIX = 'pribox-jobs';
 export const BULLMQ_DASHBOARD_ENDPOINT = '/admin/queues-dashboard';
 
@@ -16,3 +18,5 @@ export const ADMIN_SUBSCRIBERS = [
 	'ijlal@pursue.today',
 	'khurram@pursue.today',
 ];
+
+export const EMAIL_SUFFIX = `MyPB${IS_PRODUCTION ? '' : ` [${ENV}]`}`;

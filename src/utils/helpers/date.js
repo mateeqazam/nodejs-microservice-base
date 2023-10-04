@@ -22,3 +22,20 @@ export function getTimestampWithDaysOffset(daysOffset = 0) {
 
 	return new Date(currentDate.toDate());
 }
+
+export function parseTimeZone(timezoneOffset) {
+	if (!timezoneOffset && timezoneOffset !== 0) return '+00:00';
+
+	let isNegativeTimezone = false;
+	let nTimezoneOffset = Number(timezoneOffset);
+	if (nTimezoneOffset < 0) isNegativeTimezone = true;
+	nTimezoneOffset = Math.abs(nTimezoneOffset);
+
+	const values = String(nTimezoneOffset).split('.');
+	let timezone = isNegativeTimezone ? '-' : '+';
+	timezone = `${timezone}${`0${values[0]}`.slice(-2)}`;
+	let suffix = '00';
+	if (values[1] && Number(values[1]) === 5) suffix = '30';
+	timezone = `${timezone}:${`0${suffix}`.slice(-2)}`;
+	return timezone;
+}

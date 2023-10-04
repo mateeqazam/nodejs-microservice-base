@@ -1,6 +1,7 @@
 import imap from 'imap-simple';
 import { find, map } from 'lodash';
-import { getIMAPConfig } from './helpers';
+
+import getIMAPConfig from './getIMAPConfig';
 
 class IMAP {
 	static async connect({ mailbox, fetchOptions }) {

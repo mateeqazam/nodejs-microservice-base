@@ -1,7 +1,7 @@
 import { ServerClient } from 'postmark';
 
 import logger from './logger';
-import { POSTMARK_SERVER_TOKEN } from '../constants';
+import { POSTMARK_SERVER_TOKEN, PRIBOX_SENDER_EMAIL } from '../constants';
 
 const postmarkClient = new ServerClient(POSTMARK_SERVER_TOKEN);
 
@@ -10,7 +10,7 @@ async function sendSystemEmail(params) {
 		const { from, to, subject, html, attachments } = params || {};
 
 		const emailOptions = {
-			From: from,
+			From: from || PRIBOX_SENDER_EMAIL,
 			To: to,
 			Subject: subject,
 			HtmlBody: html,

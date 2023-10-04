@@ -1,10 +1,10 @@
 import { Client } from '@microsoft/microsoft-graph-client';
 import { ConfidentialClientApplication } from '@azure/msal-node';
 
-import logger from './logger';
-import MailboxModel from '../models/mailbox';
-import { ObjectId } from '../lib/Mongoose/constants';
-import OUTLOOK_CREDENTIALS from '../config/outlook';
+import logger from '../../utils/logger';
+import MailboxModel from '../../models/mailbox';
+import { ObjectId } from '../Mongoose/constants';
+import OUTLOOK_CREDENTIALS from '../../config/outlook';
 
 function getRefreshToken(oAuthClient) {
 	const tokenCache = oAuthClient.getTokenCache().serialize();

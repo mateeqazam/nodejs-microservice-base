@@ -24,11 +24,6 @@ export function findMinKeyAndValue(obj) {
 	return { minKey, minValue };
 }
 
-export const getRandomValue = (min, max) => {
-	if (!min || min === 0 || !max || max === 0) return 0;
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 export function getEmailVariantCountsMap(emailVariants) {
 	const variantsWithSentCount = {};
 	if (!isNonEmptyArray(emailVariants)) return variantsWithSentCount;
@@ -41,4 +36,12 @@ export function getEmailVariantCountsMap(emailVariants) {
 	});
 
 	return variantsWithSentCount;
+}
+
+export function camelToSnakeCase(str) {
+	if (!str || _.isString(str)) return null;
+
+	return str.replace(/[A-Z]/g, (letter, index) =>
+		index === 0 ? letter.toLowerCase() : `_${letter.toLowerCase()}`
+	);
 }

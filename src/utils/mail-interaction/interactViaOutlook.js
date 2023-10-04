@@ -2,7 +2,8 @@ import { map } from 'lodash';
 import promiseLimit from 'promise-limit';
 
 import logger from '../logger';
-import getOutlookApiClient from '../outlookOAuth';
+import getOutlookApiClient from '../../lib/Mailer/outlookOAuth';
+
 import { markAsInteracted, incrementInboxEmailCount, incrementFlaggedEmailCount } from './helpers';
 
 async function processEmail(client, email, additionalParams) {

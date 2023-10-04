@@ -2,7 +2,7 @@ import imap from 'imap-simple';
 
 import logger from '../utils/logger';
 import MailboxModel from '../models/mailbox';
-import { getIMAPConfig } from '../lib/IMAP/helpers';
+import getIMAPConfig from '../lib/IMAP/getIMAPConfig';
 import scheduleCronJob from '../utils/scheduleCronJob';
 
 async function checkIMAPConnection(mailbox) {
