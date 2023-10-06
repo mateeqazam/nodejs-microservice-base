@@ -1,4 +1,23 @@
 import moment from 'moment';
+import { isNonEmptyArray } from '.';
+
+export function formatDate(date) {
+	return moment(date).utc().format('YY-MM-DD:HH-mm-ss');
+}
+
+export function getStartDayTime(date) {
+	return new Date(moment(date).utc().startOf('day').toDate()).getTime();
+}
+
+export function getDaysBeforeDate(date, daysBefore = 0) {
+	return new Date(moment(date).add(daysBefore, 'days').utc().startOf('day'));
+}
+
+export function differenceInDaysBetweeDates(date1, date2) {
+	const startDate = moment(date1);
+	const endDate = moment(date2);
+	return endDate.diff(startDate, 'days');
+}
 
 export function isToday(date) {
 	if (!date) return false;
@@ -38,4 +57,31 @@ export function parseTimeZone(timezoneOffset) {
 	if (values[1] && Number(values[1]) === 5) suffix = '30';
 	timezone = `${timezone}:${`0${suffix}`.slice(-2)}`;
 	return timezone;
+}
+
+export function generateDateArray(n = 1) {
+	const currentDate = new Date();
+	return Array.from({ length: n }, (_, index) => {
+		const date = new Date(currentDate);
+		date.setDate(currentDate.getDate() - index);
+		return date;
+	});
+}
+
+export function sortByDateKey(data) {
+	if (!isNonEmptyArray(data)) return [];
+	return data.sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf());
+}
+
+export function getDatesBetween(startDate, endDate) {
+	const dates = [];
+	const currentDate = new Date(startDate);
+	currentDate.setDate(currentDate.getDate() + 1);
+
+	while (currentDate < endDate) {
+		dates.push(new Date(currentDate));
+		currentDate.setDate(currentDate.getDate() + 1);
+	}
+
+	return dates;
 }

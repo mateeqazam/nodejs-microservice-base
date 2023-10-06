@@ -27,7 +27,7 @@ async function runCronJobs() {
 
 				const cronJobModule = await import(filePath);
 				if (cronJobModule.default && typeof cronJobModule.default === 'function') {
-					await cronJobModule.default();
+					// await cronJobModule.default();
 				} else {
 					logger.warn(`[runCronJobs] Warn: 'default' function not found in ${file}.`);
 				}

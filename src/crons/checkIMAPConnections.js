@@ -1,4 +1,5 @@
-import Imap from 'imap';
+import { pick } from 'lodash';
+import NodeImap from 'node-imap';
 import promiseLimit from 'promise-limit';
 
 import logger from '../utils/logger';
@@ -8,7 +9,7 @@ import scheduleCronJob from '../utils/scheduleCronJob';
 
 async function isImapConnected(config) {
 	return new Promise((resolve) => {
-		const imap = new Imap(config);
+		const imap = new NodeImap(config);
 
 		imap.once('ready', () => {
 			imap.end();
@@ -38,7 +39,7 @@ async function checkIMAPConnection(mailbox) {
 		if (!connected) throw new Error(connectionError || 'Unable to connect');
 	} catch (error) {
 		const errorMessage = `[checkIMAPConnection] Unable to connect IMAP. ${error?.message}`;
-		logger.info(errorMessage, { error, params: { mailbox } });
+		logger.info(errorMessage, { error, params: { mailbox: pick(mailbox, ['_id', 'email']) } });
 		await MailboxModel.updateOne({
 			filter: { _id: mailbox._id },
 			write: { senderOnly: true },
@@ -52,6 +53,7 @@ async function checkIMAPConnections() {
 		filter: {
 			status: 'active',
 			provider: 'custom',
+			senderOnly: { $ne: true },
 			deletedAt: { $exists: false },
 		},
 		skipLimit: true,

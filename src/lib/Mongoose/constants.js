@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-export const { String, Date, Boolean, ObjectId, Mixed } = mongoose.Schema.Types;
+export const { ObjectId } = mongoose.Types;
+export const { String, Date, Boolean, Mixed } = mongoose.Schema.Types;
 
 export const DEFAULT_SELECT_LIMIT = 20;
 export const MONGO_UPDATE_OPERATORS = [

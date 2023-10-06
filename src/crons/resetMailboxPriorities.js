@@ -3,8 +3,14 @@ import MailboxModel from '../models/mailbox';
 import EmailTemplatePriorityModel from '../models/emailTemplatePriority';
 
 async function resetMailboxPriorities() {
-	await MailboxModel.updateMany({ write: { receivingPriority: 0 } });
-	await EmailTemplatePriorityModel.updateMany({ write: { priority: 0 } });
+	await MailboxModel.updateMany({
+		filter: { receivingPriority: { $gt: 0 } },
+		write: { receivingPriority: 0 },
+	});
+	await EmailTemplatePriorityModel.updateMany({
+		filter: { priority: { $gt: 0 } },
+		write: { priority: 0 },
+	});
 }
 
 function resetMailboxPrioritiesCronJob() {

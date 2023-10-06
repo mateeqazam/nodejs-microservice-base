@@ -1,32 +1,34 @@
 import logger from '../logger';
+import { isNonEmptyArray } from '../helpers';
 import MailboxModel from '../../models/mailbox';
 import interactViaIMAP from '../mail-interaction/interactViaIMAP';
 import interactViaOutlook from '../mail-interaction/interactViaOutlook';
 
-async function positiveInteract(params) {
+async function positiveInteract(mailboxId, emails) {
 	try {
-		const { to, emails } = params || {};
-		if (!to) throw new Error('Missing Required Params.');
+		if (!mailboxId) throw new Error('Missing Required Params.');
+		if (!isNonEmptyArray(emails)) return;
 
 		const toMailbox = await MailboxModel.findOne({
 			filter: {
-				_id: to,
+				_id: mailboxId,
 				status: 'active',
 				deletedAt: { $exists: false },
 			},
 		});
 		if (!toMailbox) {
-			logger.debug('[positiveInteract] Mailbox not Found.');
+			logger.debug(`[positiveInteract] ${mailboxId} Mailbox not Found.`, { data: { mailboxId } });
 			return;
 		}
 
 		if (toMailbox.provider === 'outlook') {
 			await interactViaOutlook({ toMailbox, emails });
+		} else {
+			await interactViaIMAP({ toMailbox, emails });
 		}
-		await interactViaIMAP({ toMailbox, emails });
 	} catch (error) {
 		const errorMessage = `[positiveInteract] Exception: ${error?.message}`;
-		logger.error(errorMessage, { error, params });
+		logger.error(errorMessage, { error, params: { to: mailboxId, emails } });
 		throw error;
 	}
 }

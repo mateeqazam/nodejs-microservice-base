@@ -89,9 +89,10 @@ export async function updateOne(CollectionModel, queryOptions) {
 export async function updateMany(CollectionModel, queryOptions) {
 	try {
 		const { filter = {}, write, ...restParams } = queryOptions || {};
+		const update = parseWriteOperations(write);
 		const options = { ...restParams, new: true };
 
-		return CollectionModel.updateMany(filter, write, options);
+		return CollectionModel.updateMany(filter, update, options);
 	} catch (error) {
 		logDBError(CollectionModel, 'updateMany', error, queryOptions);
 		throw error;

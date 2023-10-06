@@ -24,7 +24,7 @@ function getOAuth2Client() {
 
 class OutlookAuthProvider {
 	constructor(mailboxId) {
-		this.mailboxId = ObjectId(mailboxId);
+		this.mailboxId = new ObjectId(mailboxId);
 	}
 
 	async getAccessToken() {
@@ -60,7 +60,7 @@ class OutlookAuthProvider {
 	}
 }
 
-function getOutlookApiClient(mailboxId) {
+async function getOutlookApiClient(mailboxId) {
 	return Client.initWithMiddleware({
 		authProvider: new OutlookAuthProvider(mailboxId),
 	});

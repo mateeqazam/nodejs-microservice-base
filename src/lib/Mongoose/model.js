@@ -39,7 +39,7 @@ class Model {
 		return Operations.updateOne(this.model, ...params);
 	}
 
-	async update(...params) {
+	async updateMany(...params) {
 		return Operations.updateMany(this.model, ...params);
 	}
 

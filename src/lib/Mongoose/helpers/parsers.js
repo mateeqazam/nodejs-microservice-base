@@ -1,4 +1,4 @@
-import { pick } from 'lodash';
+import { omit, pick } from 'lodash';
 
 import { DEFAULT_SELECT_LIMIT, MONGO_UPDATE_OPERATORS } from '../constants';
 
@@ -19,7 +19,7 @@ export function parseWriteOperations(writeParams = {}) {
 	);
 
 	return {
-		...writeParams,
+		...omit(writeParams, nonMongoOpsKeys),
 		$set: {
 			...pick(writeParams, nonMongoOpsKeys),
 			...(writeParams.$set || {}),

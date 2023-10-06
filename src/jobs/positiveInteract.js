@@ -4,11 +4,11 @@ import positiveInteract from '../utils/warmup/positiveInteract';
 
 async function positiveInteractJob(job, additionalParams) {
 	try {
-		const { mailboxId, totalEmails } = job?.data || {};
+		const { to: mailboxId, emails } = job?.data || {};
 		const { logUnsuccessfulJob } = additionalParams || {};
 		if (!mailboxId) return logUnsuccessfulJob('Missing Required Mailbox Id.');
 
-		await positiveInteract(mailboxId, totalEmails);
+		await positiveInteract(mailboxId, emails);
 
 		return { success: true, data: { mailboxId } };
 	} catch (error) {

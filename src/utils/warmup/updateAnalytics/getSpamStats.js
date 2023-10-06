@@ -1,49 +1,39 @@
+import { sumBy } from 'lodash';
+
 import { MS_IN_DAY } from '../../../constants';
-import { getTodayDate } from '../../helpers/date';
+import { sortByDateKey } from '../../helpers/date';
 import SpamScoreModel from '../../../models/spamScore';
 import { ObjectId } from '../../../lib/Mongoose/constants';
-import adjustForMinDayCount from '../helpers/adjustForMinDayCount';
+import fillMissingDates from '../helpers/fillMissingDates';
+import calculateSpamScore from '../helpers/calculateSpamScore';
 
-async function getSpamStats(mailboxId, minDays, maxDays, cumulativeDaysCount) {
-	const startDate = new Date(getTodayDate() - maxDays * MS_IN_DAY);
+async function getSpamStats(mailboxId, currentDate, daysToStart = 100) {
+	const startDate = new Date(currentDate - daysToStart * MS_IN_DAY);
+	const minDays = 30;
+	const cumulativeDaysCount = 3;
 
-	const spamScores = await SpamScoreModel.findOne({
+	const spamScoresResult = await SpamScoreModel.find({
 		filter: {
-			mailbox: ObjectId(mailboxId),
-			date: { $gte: startDate, $lte: new Date() },
+			mailbox: new ObjectId(mailboxId),
+			date: { $gte: startDate, $lte: currentDate },
 		},
 		sort: { date: 1 },
+		limit: minDays,
 	});
 
-	let cumulativeFlaggedEmailCount = 0;
-	let cumulativeInboxEmailCount = 0;
+	const spamScores = fillMissingDates(spamScoresResult);
+	const spamScoreTimeline = calculateSpamScore(spamScores);
 
-	const spamScoreTimeline = adjustForMinDayCount(
-		spamScores,
-		minDays,
-		{ inboxEmailCount: 0, flaggedEmailCount: 0 },
-		{ sort: true, fillEmptyDaysWithPrevDays: true }
-	).map(({ date, flaggedEmailCount, inboxEmailCount }, i) => {
-		const adjustedInboxEmailCount = inboxEmailCount || 0;
-		const adjustedFlaggedEmailCount = flaggedEmailCount || 0;
+	const effectiveCumulativeDaysCount = Math.min(cumulativeDaysCount, spamScores?.length);
 
-		if (spamScores.length - i <= cumulativeDaysCount) {
-			cumulativeFlaggedEmailCount += adjustedFlaggedEmailCount;
-			cumulativeInboxEmailCount += adjustedInboxEmailCount;
-		}
+	const effectiveSpamScores = sortByDateKey(spamScores).slice(
+		Math.max(spamScores.length - effectiveCumulativeDaysCount, 0)
+	);
 
-		const totalEmails = adjustedInboxEmailCount + adjustedFlaggedEmailCount;
-		return {
-			date,
-			spamRate: Math.round((adjustedFlaggedEmailCount * 100) / totalEmails) || 0,
-			reputation: Math.round((adjustedInboxEmailCount * 100) / totalEmails) || 0,
-		};
-	});
+	const cumulativeInboxEmailCount = sumBy(effectiveSpamScores, 'inboxEmailCount') || 0;
+	const cumulativeFlaggedEmailCount = sumBy(effectiveSpamScores, 'flaggedEmailCount') || 0;
+	const totalCumulativeEmailCount = cumulativeInboxEmailCount + cumulativeFlaggedEmailCount;
 
-	cumulativeFlaggedEmailCount /= Math.min(cumulativeDaysCount, spamScores.length);
-	cumulativeInboxEmailCount /= Math.min(cumulativeDaysCount, spamScores.length);
-
-	const totalCumulativeEmailCount = cumulativeFlaggedEmailCount + cumulativeInboxEmailCount;
 	return {
 		spamScoreTimeline,
 		cumulativeSpamRate:
