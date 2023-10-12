@@ -18,9 +18,7 @@ async function exportToCSV(rows, fields, filename) {
 					logger.trace(`CSV exported successfully: ${exportPath}`);
 					resolve(exportPath);
 				})
-				.on('error', (error) => {
-					reject(error);
-				});
+				.on('error', (error) => reject(error));
 		});
 
 		return exportPath;

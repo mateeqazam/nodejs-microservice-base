@@ -1,3 +1,4 @@
+import 'isomorphic-fetch';
 import fetch from 'node-fetch';
 
 async function sendRequest(url, options = {}) {

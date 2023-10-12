@@ -1,9 +1,9 @@
 {
-	"name": "pribox-jobs",
+	"name": "nodejs-api-boilerplate",
 	"version": "0.0.1-development",
-	"description": "A microservice to run pribox jobs",
+	"description": "A boilerplate for writing micro-services in Node.js",
+	"license": "MIT",
 	"main": "src/index.js",
-	"private": true,
 	"scripts": {
 		"dev": "nodemon --exec babel-node --inspect src/index.js",
 		"build": "babel src -d dist",
@@ -19,49 +19,52 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pursuetoday/pribox.jobs.git"
+		"url": "https://github.com/mateeqazam/nodejs-api-boilerplate.git"
 	},
 	"author": {
 		"name": "Muhammad Ateeq Azam",
 		"email": "contact@ateeqazam.me"
 	},
+	"keywords": [
+		"node",
+		"node.js",
+		"es6",
+		"express",
+		"API",
+		"microservice",
+		"boilerplate",
+		"starter kit",
+		"starter project"
+	],
 	"dependencies": {
-		"@azure/msal-node": "^2.1.0",
-		"@bull-board/api": "5.8.4",
+		"@bull-board/api": "^5.8.4",
 		"@bull-board/express": "^5.8.4",
-		"@bull-board/ui": "5.8.4",
-		"@microsoft/microsoft-graph-client": "^3.0.7",
-		"bullmq": "^4.12.0",
+		"@bull-board/ui": "^5.8.4",
+		"bullmq": "^4.12.3",
 		"compression": "^1.7.4",
 		"cors": "^2.8.5",
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
 		"fast-csv": "^4.3.6",
-		"imap": "^0.8.19",
-		"imap-simple": "^5.1.0",
 		"isomorphic-fetch": "^3.0.0",
 		"lodash": "^4.17.21",
-		"moment": "^2.29.4",
-		"mongoose": "^7.5.3",
+		"mongoose": "^7.6.1",
 		"node-fetch": "^3.3.2",
-		"node-imap": "^0.9.6",
 		"node-schedule": "^2.1.1",
-		"nodemailer": "^6.9.5",
 		"path": "^0.12.7",
-		"postmark": "^3.0.19",
 		"promise-limit": "^2.7.0",
 		"redis": "^4.6.10"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.23.0",
-		"@babel/core": "^7.23.0",
+		"@babel/core": "^7.23.2",
 		"@babel/node": "^7.22.19",
-		"@babel/preset-env": "^7.22.20",
-		"eslint": "^8.50.0",
+		"@babel/preset-env": "^7.23.2",
+		"eslint": "^8.51.0",
 		"eslint-config-airbnb-base": "^15.0.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-import": "^2.28.1",
-		"eslint-plugin-prettier": "^5.0.0",
+		"eslint-plugin-prettier": "^5.0.1",
 		"nodemon": "^3.0.1",
 		"prettier": "^3.0.3"
 	}

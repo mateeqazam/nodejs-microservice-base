@@ -1,2 +1,3 @@
 export const MONGODB_HOST = process.env.MONGODB_HOST || 'mongodb://localhost:27017/';
-export const MONGODB_NAME = process.env.MONGODB_NAME || 'pribox';
+export const MONGODB_NAME = process.env.MONGODB_NAME || 'utilities';
+export const { MONGODB_URL } = process.env;

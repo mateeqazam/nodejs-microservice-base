@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
 import logger from '../../utils/logger';
-import { MONGODB_HOST, MONGODB_NAME } from '../../config/mongo';
+import { MONGODB_URL, MONGODB_HOST, MONGODB_NAME } from '../../config/mongo';
 
 mongoose.Promise = global.Promise;
 
 async function connectDatabase() {
 	try {
-		const dbURL = `${MONGODB_HOST}${MONGODB_NAME}`;
+		const dbURL = MONGODB_URL || `${MONGODB_HOST}${MONGODB_NAME}`;
 		logger.info('[connectDatabase] Connecting Mongo Server', dbURL);
 
 		const connectionOptions = { useUnifiedTopology: true, useNewUrlParser: true };

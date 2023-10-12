@@ -1,14 +1,14 @@
-# Pribox Jobs Microservice
+# Nodejs Microservice starter project
 
-Welcome to the Pribox Jobs Microservice! This microservice is built using Node.js, MongoDB, and ES9. It allows you to run pribox jobs and manage related data efficiently.
+This is a starter project for developing micro-services in Node.js using ES9. I tried to keep the folder structure simple so that any beginner could understand and start working on it.
 
 ## Getting Started
 
 ### Clone the repo and make it yours
 
 ```bash
-git clone https://github.com/pursuetoday/pribiox.jobspribox..git
-cd pribox.jobs
+git clone https://github.com/mateeqazam/nodejs-microservice-boilerplate.git
+cd nodejs-microservice-boilerplate
 ```
 
 #### Install dependencies
@@ -28,6 +28,10 @@ yarn dev
 ```bash
 yarn start:prod
 ```
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/mateeqazam/nodejs-microservice-boilerplate/blob/main/LICENSE)
 
 ## Meta
 

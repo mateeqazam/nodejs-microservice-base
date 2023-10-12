@@ -1,4 +1,5 @@
 import { assign } from 'lodash';
+
 import logger from './logger';
 
 async function setupRecurringJob(queue, { repeatRule, jobKey, jobData, jobOptions } = {}) {
