@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs/promises';
-import { isEmpty, map } from 'lodash';
+import { map } from 'lodash';
 import promiseLimit from 'promise-limit';
 import { createBullBoard } from '@bull-board/api';
 import { ExpressAdapter } from '@bull-board/express';
@@ -12,8 +12,7 @@ import { BULLMQ_DASHBOARD_ENDPOINT } from '../constants';
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath(BULLMQ_DASHBOARD_ENDPOINT);
 
-const projectRootDirectory = process.cwd();
-const queueDirectory = path.join(projectRootDirectory, 'src/queues');
+const queueDirectory = path.join(__dirname, '../queues');
 
 async function loadQueue(queueFile) {
 	try {
@@ -22,8 +21,10 @@ async function loadQueue(queueFile) {
 		}
 
 		const filePath = path.join(queueDirectory, queueFile);
-		const { default: queueModule } = await import(filePath);
-		if (queueModule && !isEmpty(queueModule)) return new BullMQAdapter(queueModule);
+		const queueModule = await import(filePath);
+		if (queueModule?.default || queueModule) {
+			return new BullMQAdapter(queueModule.default || queueModule);
+		}
 
 		return null;
 	} catch (error) {
