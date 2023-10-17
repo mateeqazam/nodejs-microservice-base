@@ -1,18 +1,19 @@
-import { IS_LOCAL, IS_STAGING } from '../../config';
-import { BULLMQ_QUEUE_PREFIX } from '../../constants';
-import { REDIS_HOST, REDIS_PASSWORD, REDIS_PORT } from '../../config/redis';
+import IORedis from 'ioredis';
 
-let prefix = BULLMQ_QUEUE_PREFIX || 'microservice';
-if (IS_LOCAL) prefix = `${prefix}-local`;
-else if (IS_STAGING) prefix = `${prefix}-staging`;
+import { ENV, IS_DEV, IS_PRODUCTION, BULLMQ_QUEUE_PREFIX } from '../../config';
+import REDIS_CONFIG, { REDIS_HOST, REDIS_PASSWORD, REDIS_PORT } from '../../config/redis';
 
-export const redisConnection = {
-	host: REDIS_HOST,
+let prefix = BULLMQ_QUEUE_PREFIX || 'utilities';
+if (!IS_PRODUCTION) prefix = `${prefix}-${ENV}`;
+
+export const redisConnection = new IORedis({
 	port: REDIS_PORT,
-	options: {
-		password: REDIS_PASSWORD,
-	},
-};
+	host: REDIS_HOST,
+	username: 'default',
+	password: REDIS_PASSWORD,
+	maxRetriesPerRequest: null,
+	retryStrategy: REDIS_CONFIG?.retryStrategy,
+});
 
 export const RETRIES = 3;
 export const WORKERS_CONCURRENCY = 200;
@@ -31,7 +32,7 @@ export const DEFAULT_JOB_OPTIONS = {
 			type: 'exponential',
 			delay: 3000,
 		},
-		removeOnComplete: !IS_LOCAL,
+		removeOnComplete: !IS_DEV,
 		removeOnFail: false,
 	},
 };

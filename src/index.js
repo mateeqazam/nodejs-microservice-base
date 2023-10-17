@@ -5,9 +5,8 @@ import app from './app';
 import runCrons from './crons';
 import appRoutes from './routes';
 import logger from './utils/logger';
-import { ENV, PORT } from './config';
 import serverAdapter from './dashboard';
-import { BULLMQ_DASHBOARD_ENDPOINT } from './constants';
+import { ENV, PORT, BULLMQ_DASHBOARD_ENDPOINT } from './config';
 import connectMongoDatabase from './services/MongoDB/connection';
 
 (async () => {
