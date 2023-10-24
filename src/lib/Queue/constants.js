@@ -3,7 +3,7 @@ import IORedis from 'ioredis';
 import { ENV, IS_DEV, IS_PRODUCTION, BULLMQ_QUEUE_PREFIX } from '../../config';
 import REDIS_CONFIG, { REDIS_HOST, REDIS_PASSWORD, REDIS_PORT } from '../../config/redis';
 
-let prefix = BULLMQ_QUEUE_PREFIX || 'utilities';
+let prefix = BULLMQ_QUEUE_PREFIX;
 if (!IS_PRODUCTION) prefix = `${prefix}-${ENV}`;
 
 export const redisConnection = new IORedis({

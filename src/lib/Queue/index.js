@@ -78,6 +78,10 @@ function createQueueAndWorker(queueTitle, additionalParams = {}) {
 
 		worker.on('failed', logJobRetry);
 
+		queue.on('error', (error) => {
+			logger.error(`${queueTitle} Queue encountered an error: ${error.message}`, { error });
+		});
+
 		return { queue, worker };
 	} catch (error) {
 		const errorMessage = `[createQueueAndWorker] Exception: ${error?.message}`;

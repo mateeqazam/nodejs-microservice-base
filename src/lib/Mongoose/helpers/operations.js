@@ -36,6 +36,13 @@ async function find(findFunc, CollectionModel, queryOptions) {
 export const findOne = async (...params) => find('findOne', ...params);
 export const findMany = async (...params) => find('find', ...params);
 
+export const findById = async (CollectionModel, docId, params = {}, ...restParams) => {
+	if (!docId) throw new Error('Missing Required Id.');
+
+	const filter = { ...(params?.filter || {}), _id: docId };
+	return findOne(CollectionModel, { ...(params || {}), filter }, ...restParams);
+};
+
 export async function insertOne(CollectionModel, documentToInsert) {
 	try {
 		if (!documentToInsert || Object.keys(documentToInsert).length === 0) {

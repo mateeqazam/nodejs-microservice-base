@@ -1,4 +1,4 @@
-# Nodejs Microservice starter project
+# Node.js Microservices Base
 
 This is a starter project for developing micro-services in Node.js using ES9. I tried to keep the folder structure simple so that any beginner could understand and start working on it.
 
@@ -7,8 +7,8 @@ This is a starter project for developing micro-services in Node.js using ES9. I 
 ### Clone the repo and make it yours
 
 ```bash
-git clone https://github.com/mateeqazam/nodejs-microservice-boilerplate.git
-cd nodejs-microservice-boilerplate
+git clone https://github.com/mateeqazam/nodejs-microservice-base.git
+cd nodejs-microservice-base
 ```
 
 #### Install dependencies
@@ -26,12 +26,12 @@ yarn dev
 ## Running in Production
 
 ```bash
-yarn start:prod
+yarn serve
 ```
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/mateeqazam/nodejs-microservice-boilerplate/blob/main/LICENSE)
+This project is licensed under the [MIT License](https://github.com/mateeqazam/nodejs-microservice-base/blob/main/LICENSE)
 
 ## Meta
 

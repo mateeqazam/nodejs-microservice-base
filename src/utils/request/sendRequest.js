@@ -15,18 +15,15 @@ async function sendRequest(url, options = {}) {
 		...(data ? { body: JSON.stringify(data) } : {}),
 	};
 
-	try {
-		const response = await fetch(url, reqOptions);
-		if (!response || !response.ok) {
-			throw new Error(
-				`Network response was not ok (status: ${response.status}, statusText: ${response.statusText})`
-			);
-		}
-
-		return { result: isTextResponse ? await response.text() : await response.json() };
-	} catch (error) {
-		return { error: `Error during fetch: ${error.message}` };
+	const response = await fetch(url, reqOptions);
+	if (!response || !response.ok) {
+		throw new Error(
+			`Network response was not ok (status: ${response.status}, statusText: ${response.statusText})`
+		);
 	}
+
+	const result = isTextResponse ? await response.text() : await response.json();
+	return { status: response?.status, result };
 }
 
 export default sendRequest;

@@ -8,10 +8,10 @@ function getSystemEnvVariables(req, res, next) {
 			success: true,
 			data: {
 				configurations: {
+					...(process.env || {}),
 					...(CONFIG || {}),
 					...(MONGO_CONFIG || {}),
 					...(REDIS_CONFIG || {}),
-					...(process.env || {}),
 				},
 			},
 		});

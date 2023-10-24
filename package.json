@@ -1,7 +1,7 @@
 {
-	"name": "nodejs-api-boilerplate",
+	"name": "nodejs-microservice-base",
 	"version": "0.0.1-development",
-	"description": "A boilerplate for writing micro-services in Node.js",
+	"description": "A starting point for building efficient Node.js microservices.",
 	"license": "MIT",
 	"main": "src/index.js",
 	"scripts": {
@@ -19,23 +19,12 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/mateeqazam/nodejs-api-boilerplate.git"
+		"url": "https://github.com/mateeqazam/nodejs-microservice-base.git"
 	},
 	"author": {
 		"name": "Muhammad Ateeq Azam",
 		"email": "contact@ateeqazam.me"
 	},
-	"keywords": [
-		"node",
-		"node.js",
-		"es6",
-		"express",
-		"API",
-		"microservice",
-		"boilerplate",
-		"starter kit",
-		"starter project"
-	],
 	"dependencies": {
 		"@bull-board/api": "^5.8.4",
 		"@bull-board/express": "^5.8.4",

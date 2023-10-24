@@ -19,6 +19,10 @@ class Model {
 		return Operations.findOne(this.model, ...params);
 	}
 
+	async findById(...params) {
+		return Operations.findById(this.model, ...params);
+	}
+
 	async find(...params) {
 		return Operations.findMany(this.model, ...params);
 	}
