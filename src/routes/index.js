@@ -1,11 +1,11 @@
 import express from 'express';
 
-import getSystemEnvVariables from '../controllers/system';
+import systemRoutes from './system';
 
 const router = express.Router();
 
-router.get('/ping', (req, res) => res.send('pong'));
+router.get('/ping', (_, res) => res.send('pong'));
 
-router.get('/system/print-env', getSystemEnvVariables);
+router.use('/system', systemRoutes);
 
 export default router;

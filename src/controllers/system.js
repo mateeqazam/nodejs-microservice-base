@@ -2,7 +2,7 @@ import * as CONFIG from '../config';
 import * as MONGO_CONFIG from '../config/mongo';
 import * as REDIS_CONFIG from '../config/redis';
 
-function getSystemEnvVariables(req, res, next) {
+export function getSystemEnvVariables(req, res, next) {
 	try {
 		return res.status(200).send({
 			success: true,
@@ -20,4 +20,4 @@ function getSystemEnvVariables(req, res, next) {
 	}
 }
 
-export default getSystemEnvVariables;
+export default { getSystemEnvVariables };

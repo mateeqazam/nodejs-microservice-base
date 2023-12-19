@@ -7,7 +7,7 @@ import { ExpressAdapter } from '@bull-board/express';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 
 import logger from '../utils/logger';
-import { BULLMQ_DASHBOARD_ENDPOINT } from '../config';
+import { BULLMQ_DASHBOARD_ENDPOINT } from '../constants';
 
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath(BULLMQ_DASHBOARD_ENDPOINT);

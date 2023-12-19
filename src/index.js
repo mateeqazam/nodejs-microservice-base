@@ -5,8 +5,7 @@ import app from './app';
 import runCrons from './crons';
 import appRoutes from './routes';
 import logger from './utils/logger';
-import serverAdapter from './dashboard';
-import { ENV, PORT, BULLMQ_DASHBOARD_ENDPOINT } from './config';
+import { ENV, PORT } from './config';
 import connectMongoDatabase from './services/MongoDB/connection';
 
 (async () => {
@@ -17,7 +16,6 @@ import connectMongoDatabase from './services/MongoDB/connection';
 		runCrons();
 
 		app.use('/', appRoutes);
-		app.use(BULLMQ_DASHBOARD_ENDPOINT, serverAdapter.getRouter());
 
 		app.use((req, res) =>
 			res.status(404).json({
@@ -25,10 +23,11 @@ import connectMongoDatabase from './services/MongoDB/connection';
 			})
 		);
 
-		app.use((error, req, res) =>
-			// log error
-			res.status(500).json({ message: error?.message || error || 'Something went wrong!' })
-		);
+		app.use((error, req, res) => {
+			const errorMessage = error?.message || 'Something went wrong!';
+			logger.error(errorMessage, { error, data: { status: 500, req } });
+			return res.status(500).json({ message: errorMessage });
+		});
 
 		await app.listen(PORT);
 		logger.info(`Server started on port ${PORT} (ENV: ${ENV})`);

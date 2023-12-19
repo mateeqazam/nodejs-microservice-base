@@ -13,4 +13,3 @@ export const IS_DEVELOPMENT = ENV === 'development';
 export const IS_DEV = IS_LOCAL || IS_DEVELOPMENT || (!IS_PRODUCTION && !IS_STAGING);
 
 export const BULLMQ_QUEUE_PREFIX = 'nodejs-microservice';
-export const BULLMQ_DASHBOARD_ENDPOINT = '/admin/queues-dashboard';
