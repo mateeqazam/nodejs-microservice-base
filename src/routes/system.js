@@ -10,6 +10,10 @@ const systemRoutes = express.Router();
 
 systemRoutes.get('/app-env', sysAdminAuthMiddleware, getSystemEnvVariables);
 
-systemRoutes.use(BULLMQ_DASHBOARD_ENDPOINT, sysAdminAuthMiddleware, serverAdapter.getRouter());
+systemRoutes.use(
+	BULLMQ_DASHBOARD_ENDPOINT?.replace('/system', ''),
+	sysAdminAuthMiddleware,
+	serverAdapter.getRouter()
+);
 
 export default systemRoutes;
